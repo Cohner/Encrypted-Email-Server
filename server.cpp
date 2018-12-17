@@ -23,8 +23,6 @@ using namespace std;
 
 int bytesReceived;
 
-packet::Packet* dataPacket;
-
 short SocketCreate(void){
     short hSocket;
     printf("Create the socket\n");
@@ -45,9 +43,10 @@ int BindCreatedSocket(int hSocket){
 
 int main(int argc, char* argv[]){
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    
+    packet::Packet* dataPacket;
+    string databaseDirectory = "mail.db";
     BCrypt bcrypt;
-    database_h::CreateDatabase();
+    database_h::CreateDatabase(databaseDirectory);
     int socket_desc , sock , clientLen , read_size;
     struct sockaddr_in server , client;
     char client_message[200]={0};
@@ -91,18 +90,18 @@ int main(int argc, char* argv[]){
             //recv(sock , &dataFromClient , bytesReceived , 0);
             if(dataPacket->op() == 1){
                 //registerUser
-                if(database_h::FindUser(dataPacket->name())){
+                if(database_h::FindUser(dataPacket->name(), databaseDirectory)){
                     dataPacket->set_error("Username Taken");
                     //send(sock , &dataFromClient , sizeof(dataFromClient) , 0);
                 }else{
-                    database_h::CreateUser(dataPacket->name(), dataPacket->password(), dataPacket->salt(), dataPacket->pubkey());
+                    database_h::CreateUser(dataPacket->name(), dataPacket->password(), dataPacket->salt(), dataPacket->pubkey(), databaseDirectory);
                     //send(sock , &dataFromClient , sizeof(dataFromClient) , 0);
                 }
             }
             else if(dataPacket->op() == 2){
                 //loginUser
-                if(database_h::FindUser(dataPacket->name())){
-                    string databasePassword = database_h::GetPassword(dataPacket->name()).at(0);
+                if(database_h::FindUser(dataPacket->name(), databaseDirectory)){
+                    string databasePassword = database_h::GetPassword(dataPacket->name(), databaseDirectory).at(0);
                     string userPassword = dataPacket->password();
                     if( databasePassword == userPassword){
                         dataPacket->set_error("Login Success");
@@ -119,8 +118,8 @@ int main(int argc, char* argv[]){
             }
             else if(dataPacket->op() == 3){
                 //sendMesage
-                if(database_h::FindUser(dataPacket->to(0))){
-                    database_h::WriteMessage(dataPacket->name(), dataPacket->to(0), dataPacket->subject(0), dataPacket->msg(0));
+                if(database_h::FindUser(dataPacket->to(0), databaseDirectory)){
+                    database_h::WriteMessage(dataPacket->name(), dataPacket->to(0), dataPacket->subject(0), dataPacket->msg(0), databaseDirectory);
                 }else{
                     dataPacket->set_error("User Not Found");
                     //SEND PACKET
@@ -129,12 +128,12 @@ int main(int argc, char* argv[]){
             }
             else if(dataPacket->op() == 4){
                 //viewMessages
-                database_h::GetMessages(dataPacket, dataPacket->name());
+                database_h::GetMessages(dataPacket, dataPacket->name(), databaseDirectory);
             }
             else if(dataPacket->op() == 5){
                 //viewUsers
                 int i;
-                vector<string> allUsers = database_h::GetAllUsers();
+                vector<string> allUsers = database_h::GetAllUsers(databaseDirectory);
                 for(i = 0; i < allUsers.size(); i++){
                     dataPacket->set_all_users(i, allUsers.at(i));
                 }
@@ -159,33 +158,3 @@ int main(int argc, char* argv[]){
     }
     return 0;
 }
-
-
-    /*******BEGIN TESTS*******
-    string user = "Joey";
-    string password = "badpassword";
-    string salt = "SeaSalt";
-    string key = "somekey";
-    string hash = bcrypt.generateHash(password.append(salt));
-    
-    string enteredPassword = "badpassword";
-    if(database_h::FindUser(user)){
-        cout << "Joey already exists" << endl;
-    }else{
-        database_h::CreateUser(user, hash, salt, key);
-    }
-    
-    if(database_h::FindUser(user)){
-        vector<string> joeyPass = database_h::GetPassword(user);
-        cout << bcrypt.validatePassword(enteredPassword.append(joeyPass.at(1)),joeyPass.at(0)) << endl;
-    }else{
-        cout << "User not found in database" << endl;
-    }
-    
-    if(database_h::FindUser(user)){
-        vector<string> joeyKey = database_h::GetPublicKey(user);
-        cout << joeyKey.at(0) << endl;
-    }else{
-        cout << "User not found in database" << endl;
-    }
-    *******END TESTS*******/

@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <gcrypt.h>
 using namespace std;
 
 static int database_h::callback(void *outputPtr, int argc, char **argv, char **azColName){
@@ -14,61 +13,21 @@ static int database_h::callback(void *outputPtr, int argc, char **argv, char **a
     }
     return 0;
 }
-//Deprecated function used as a reference for the rest of the functions below
-//TODO: Delete this once the helper functions have been written
-int database_h::TestCode(){
-    sqlite3* db;
-    char *zErrMsg = 0;
-    int rc;
-    
-    rc = sqlite3_open("mail.db", &db);
-    if( rc ){
-        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        return 1;
-    };
-    
-    string name;
-    cout << "Welcome to Cyberdyne!  What is your login name?"<< endl;
-    getline(cin, name);
-    name = sqlite3_mprintf(name.c_str());
-    string password;
-    cout << "Thank you "<< name << ".  What is your password?" << endl;
-    getline(cin, password);
-    password = sqlite3_mprintf(password.c_str());
-    
-    string sql = "SELECT * FROM users where name='" + name + "' and password='"+password + "'";
-    vector<string> results;
-    
-    rc = sqlite3_exec(db, sql.c_str(), callback, &results, &zErrMsg);
-    if( rc != SQLITE_OK ){
-    fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-    }else{
-      if (!results.empty()){
-        cout << "Welcome to Cyberdyne " << results[0] << endl;
-      } else {
-        cout << "Not a valid name/password combo.  Try again." << endl;
-      }
-    }
-    sqlite3_close(db);
-    return 0;
-}
 
-int database_h::CreateDatabase(){
+int database_h::CreateDatabase(string databaseDirectory){
     sqlite3* db;
     char *zErrMsg = 0;
     int rc;
     string sql;
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
         return 0;
     }
     
-    sql = "CREATE TABLE IF NOT EXISTS USERS( ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, SALT TEXT, PUB_KEY TEXT);";
+    sql = "CREATE TABLE IF NOT EXISTS USERS( ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PASSWORD TEXT, SALT BLOB, PUB_KEY BLOB);";
     rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
     if( rc != SQLITE_OK ){
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -94,13 +53,13 @@ int database_h::CreateDatabase(){
     return 1;
 }
 
-int database_h::FindUser(string user){
+int database_h::FindUser(string user, string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
     user = sqlite3_mprintf(user.c_str()); //Sanitize user input
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -126,43 +85,55 @@ int database_h::FindUser(string user){
     return 0;
 }
 
-void database_h::CreateUser(string user, string password, string salt, string publicKey){
+void database_h::CreateUser(string user, string password, string salt, string publicKey, string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
-    user = sqlite3_mprintf(user.c_str()); //Sanitize user input
-    password = sqlite3_mprintf(password.c_str());
-
+    sqlite3_stmt *stmt = NULL;
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
         return;
     }
-    
-    string sql = "INSERT INTO USERS (\"NAME\",\"PASSWORD\",\"SALT\",\"PUB_KEY\") VALUES(\""+user+"\", \""+password+"\", \""+salt+"\",\""+publicKey+"\");";
-    rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
-    if( rc != SQLITE_OK ){
-    fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-    }else{
-        sqlite3_close(db);
-        cout << "User created" << endl;
+
+
+    rc = sqlite3_prepare_v2(db,
+                            "INSERT INTO USERS(NAME, PASSWORD, SALT, PUB_KEY)"
+                            " VALUES(?, ?, ?, ?)",
+                            -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
+        cerr << "prepare failed: " << sqlite3_errmsg(db) << endl;
+    } else {
+        // SQLITE_STATIC because the statement is finalized
+        // before the buffer is freed:
+        rc = sqlite3_bind_text(stmt, 1, user.c_str(), user.size(), SQLITE_STATIC);
+        rc = sqlite3_bind_text(stmt, 2, password.c_str(), password.size(), SQLITE_STATIC);
+        rc = sqlite3_bind_blob(stmt, 3, salt.c_str(), salt.size(), SQLITE_STATIC);
+        rc = sqlite3_bind_blob(stmt, 4, publicKey.c_str(), publicKey.size(), SQLITE_STATIC);
+        if (rc != SQLITE_OK) {
+            cerr << "bind failed: " << sqlite3_errmsg(db) << endl;
+        } else {
+            rc = sqlite3_step(stmt);
+            if (rc != SQLITE_DONE)
+                cerr << "execution failed: " << sqlite3_errmsg(db) << endl;
+        }
     }
+    sqlite3_finalize(stmt);
     sqlite3_close(db);
     return;
 }
 
 //This function returns an array with item 0 being the hashed password, and item 1 being the salt
-vector<string> database_h::GetPassword(string user){
+vector<string> database_h::GetPassword(string user, string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
     user = sqlite3_mprintf(user.c_str()); //Sanitize user input
     vector<string> results;
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -185,7 +156,7 @@ vector<string> database_h::GetPassword(string user){
     
 }
 
-void database_h::WriteMessage(string user, string sendTo, string subject, string message){
+void database_h::WriteMessage(string user, string sendTo, string subject, string message, string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
@@ -194,7 +165,7 @@ void database_h::WriteMessage(string user, string sendTo, string subject, string
     subject = sqlite3_mprintf(subject.c_str());
     message = sqlite3_mprintf(message.c_str());
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -214,7 +185,7 @@ void database_h::WriteMessage(string user, string sendTo, string subject, string
     return;
 }
 
-void database_h::GetMessages(packet::Packet* dataPacket, string user){
+void database_h::GetMessages(packet::Packet* dataPacket, string user, string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
@@ -225,7 +196,7 @@ void database_h::GetMessages(packet::Packet* dataPacket, string user){
     vector<string> subject;
     vector<string> message;
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -280,7 +251,7 @@ void database_h::GetMessages(packet::Packet* dataPacket, string user){
     return;
 }
 
-vector<string> database_h::GetPublicKey(string user){
+vector<string> database_h::GetPublicKey(string user, string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
@@ -288,7 +259,7 @@ vector<string> database_h::GetPublicKey(string user){
     
     vector<string> results;
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -309,14 +280,14 @@ vector<string> database_h::GetPublicKey(string user){
     return results;
 }
 
-vector<string> database_h::GetAllUsers(){
+vector<string> database_h::GetAllUsers(string databaseDirectory){
     sqlite3* db;
     char * zErrMsg = 0;
     int rc;
     
     vector<string> results;
     
-    rc = sqlite3_open("mail.db", &db);
+    rc = sqlite3_open(databaseDirectory.c_str(), &db);
     if( rc ){
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);

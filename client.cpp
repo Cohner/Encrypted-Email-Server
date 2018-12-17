@@ -33,17 +33,17 @@ string __passwordConfirmation__;
 BCrypt bcrypt;
 int bytesReceived;
 
-int userInterface();
-void loginScreen();
-void registerScreen();
-void aboutScreen();
-void serverUI();
-void inbox();
-void sendMessage();
-void users();
-int messageUI(int);
+int userInterface(packet::Packet*);
+void loginScreen(packet::Packet*);
+void registerScreen(packet::Packet*);
+void aboutScreen(packet::Packet*);
+void serverUI(packet::Packet*);
+void inbox(packet::Packet*);
+void sendMessage(packet::Packet*);
+void users(packet::Packet*);
+int messageUI(int, packet::Packet*);
 
-packet::Packet* dataPacket;
+
 
 //Create a Socket for server communication
 short SocketCreate(void){
@@ -127,7 +127,7 @@ string getPASSConfirmation(){
     return PASS;
 }
 
-void clearDataPacket(){
+void clearDataPacket(packet::Packet* dataPacket){
     dataPacket->set_op(0);
     dataPacket->clear_name();
     dataPacket->clear_password();
@@ -146,7 +146,7 @@ void clearScreen(){
     cout << "\x1B[2J\x1B[H" << flush;
 }
 
-int userInterface(){
+int userInterface(packet::Packet* dataPacket){
     clearScreen();
     cout << 
         "-------------------------------------------------\n"
@@ -165,23 +165,23 @@ int userInterface(){
     cin >> userInput;
     if(userInput == "1"){
         dataPacket->set_op(2);
-        loginScreen();
+        loginScreen(dataPacket);
     }
     if(userInput == "2"){
         dataPacket->set_op(1);
-        registerScreen();
+        registerScreen(dataPacket);
     }
     if(userInput == "3"){
-        aboutScreen();
+        aboutScreen(dataPacket);
     }
     if(userInput == "4"){
         exit(0);
     }else{
-        userInterface();
+        userInterface(dataPacket);
     }
 }
 
-void loginScreen(){
+void loginScreen(packet::Packet* dataPacket){
     string temp;
     clearScreen();
     cout << 
@@ -218,7 +218,7 @@ void loginScreen(){
     // REPLACE THE IFS BELOW WITH NEW FUNCTIONALITY INVOLVING BCRYPT
     
     if(dataPacket->error() == "Login Success"){
-        serverUI();
+        serverUI(dataPacket);
     }else if(dataPacket->error() == "Login Failed"){
         clearScreen();
         cout <<
@@ -232,7 +232,7 @@ void loginScreen(){
             "\033[1;31m        Username or Password is incorrect!\033[0m\n";
             this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
             clearScreen();
-            userInterface();
+            userInterface(dataPacket);
     }else{
        clearScreen();
         cout <<
@@ -246,11 +246,11 @@ void loginScreen(){
             "\033[1;31m        Username or Password is incorrect!\033[0m\n";
             this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
             clearScreen();
-            userInterface(); 
+            userInterface(dataPacket); 
     }
 }
 
-void serverUI(){
+void serverUI(packet::Packet* dataPacket){
     clearScreen();
     cout <<
         "-------------------------------------------------\n"
@@ -268,25 +268,25 @@ void serverUI(){
     cin >> userInput;
     if(userInput == "1"){
         dataPacket->set_op(4);
-        inbox();
+        inbox(dataPacket);
     }
     if(userInput == "2"){
         dataPacket->set_op(3);
-        sendMessage();
+        sendMessage(dataPacket);
     }
     if(userInput == "3"){
         dataPacket->set_op(5);
-        users();
+        users(dataPacket);
     }
     if(userInput == "4"){
-        clearDataPacket();
-        userInterface();
+        clearDataPacket(dataPacket);
+        userInterface(dataPacket);
     }else{
-        serverUI();
+        serverUI(dataPacket);
     }
 } 
 
-void registerScreen(){
+void registerScreen(packet::Packet* dataPacket){
     clearScreen();
     cout << 
         "-------------------------------------------------\n"
@@ -320,7 +320,7 @@ void registerScreen(){
         dataPacket->set_salt("salty");
         __password__ = bcrypt.generateHash(__password__.append(dataPacket->salt()));
         dataPacket->set_password(__password__);
-        dataPacket->set_pubkey(clientTools_h::KeyGen());
+        dataPacket->set_pubkey(clientTools_h::KeyGen("clientPrivateKey"));
     }else{
         clearScreen();
         cout <<
@@ -334,7 +334,7 @@ void registerScreen(){
             "\033[1;31m        Passwords do not match!\033[0m\n";
         this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
         clearScreen();
-        registerScreen();
+        registerScreen(dataPacket);
     }
     
     /* TEMP REMOVAL OF SEND AND RECEIVE. THESE FUNCTIONS WILL SERIALZIE THE USER, AND SEND TO THE SERVER
@@ -355,15 +355,15 @@ void registerScreen(){
             "\033[1;31m        Username is already taken!\033[0m\n";
         this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
         clearScreen();
-        clearDataPacket();
-        registerScreen();
+        clearDataPacket(dataPacket);
+        registerScreen(dataPacket);
     }else{
         clearScreen();
-        userInterface();
+        userInterface(dataPacket);
     }
 }
 
-void aboutScreen(){
+void aboutScreen(packet::Packet* dataPacket){
      clearScreen();
      cout << 
         "-------------------------------------------------\n"
@@ -386,13 +386,13 @@ void aboutScreen(){
         "Press '1' to go back. \n";
         cin >> userInput;
         if(userInput == "1"){
-            userInterface();
+            userInterface(dataPacket);
         }else{
-            aboutScreen();
+            aboutScreen(dataPacket);
         }
 }
 
-void inbox(){
+void inbox(packet::Packet* dataPacket){
     clearScreen();
     int i;
     // THIS NEEDS TO RECV RECIPIENT/SUBJECT/MSG/TIME
@@ -413,13 +413,13 @@ void inbox(){
     cin >> userInput;
     for(i = 0; i < dataPacket->subject_size(); i++){
         if(userInput == to_string(i-1)){
-            messageUI(i);
+            messageUI(i, dataPacket);
         }
     }
-    inbox();
+    inbox(dataPacket);
 }
 
-int messageUI(int MSGNUM){
+int messageUI(int MSGNUM, packet::Packet* dataPacket){
     clearScreen();
     cout <<
         "-------------------------------------------------\n"
@@ -451,12 +451,12 @@ int messageUI(int MSGNUM){
         // SEND
         this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
     } else{
-        inbox();
+        inbox(dataPacket);
     }
-    serverUI();
+    serverUI(dataPacket);
 }
 
-void sendMessage(){
+void sendMessage(packet::Packet* dataPacket){
     clearScreen();
     cout <<
         "-------------------------------------------------\n"
@@ -515,19 +515,19 @@ void sendMessage(){
         if(dataPacket->error() == "User Not Found"){
             cout << "\n\n \033[1;31m        Unable to find User!\033[0m\n";
             this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
-            serverUI();
+            serverUI(dataPacket);
         }else{
             cout << "\n\n \033[1;31m        Message has been sent!\033[0m\n";
             this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(3));
-            serverUI();
+            serverUI(dataPacket);
         }
     }else{
-        sendMessage();
+        sendMessage(dataPacket);
     }
-    serverUI();    
+    serverUI(dataPacket);    
 }
 
-void users(){
+void users(packet::Packet* dataPacket){
     int i;
     clearScreen();
     cout <<
@@ -544,15 +544,16 @@ void users(){
     cout << "Press '1 to go back. \n";
     cin >> userInput;
     if(userInput == "1"){
-        serverUI();
+        serverUI(dataPacket);
     }else{
-        users();
+        users(dataPacket);
     }
     
 }
 
 int main(void){
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+    packet::Packet* dataPacket;
     //Create socket
     hSocket = SocketCreate();
     if(hSocket == -1){
@@ -567,7 +568,7 @@ int main(void){
     }
     cout << "Sucessfully conected with server\n";
     //clearScreen();
-    userInterface();
+    userInterface(dataPacket);
     
     //Send data to the server
     //SocketSend(hSocket , SendToServer , strlen(SendToServer));

@@ -1,5 +1,6 @@
 #include "clientTools.h"
 #include <iostream>
+#include <cstdio>
 #include <string>
 using namespace std;
 
@@ -32,8 +33,8 @@ using CryptoPP::SecByteBlock;
 using CryptoPP::Exception;
 using CryptoPP::DecodingResult;
 
-//Generate the public and private key for this user, store them in a file, and return the public key as a gcry_ac_key_t (gcrypt's custom key type)
-string clientTools_h::KeyGen(){
+//Generate the public and private key for this user, store the private key in a file, and return the public key as a string
+string clientTools_h::KeyGen(const string& filename){
     AutoSeededRandomPool rng;
     RSA::PublicKey pubKey;
     RSA::PrivateKey secretKey;
@@ -45,7 +46,7 @@ string clientTools_h::KeyGen(){
     RSA::PrivateKey privateKey( parameters );
     RSA::PublicKey publicKey( parameters );
     
-    SavePrivateKey("nothingSecretHere", secretKey);
+    SavePrivateKey(filename, secretKey);
     SavePublicKey(&pubKeyString, pubKey);
     
     return pubKeyString;
@@ -96,12 +97,12 @@ void clientTools_h::LoadPrivateKey(const string& filename, RSA::PrivateKey& key)
 	key.Load(queue);	
 }
 
-void clientTools_h::LoadPublicKey(string* stringname, RSA::PublicKey& key) //This function will load a public key from a string
+void clientTools_h::LoadPublicKey(string stringname, RSA::PublicKey& key) //This function will load a public key from a string
 {
 	// http://www.cryptopp.com/docs/ref/class_byte_queue.html
 	CryptoPP::ByteQueue queue;
 
-	StringLoad(stringname, queue);
+	StringLoad(&stringname, queue);
 	key.Load(queue);	
 }
 
@@ -151,4 +152,24 @@ string clientTools_h::Decrypt(RSA::PrivateKey& privateKey, string cipher){
          ); // StringSource
     
     return message;
+}
+
+string clientTools_h::GetRandomSalt(){
+	FILE* urandom;
+	char randomData[50];
+	urandom = fopen("/dev/urandom", "rb");
+	if (urandom == NULL){
+		
+	    perror("/dev/urandom could not be accessed");
+	    
+	}else{
+
+	    ssize_t result = fread(randomData, sizeof(char), sizeof(randomData), urandom);
+	    if (result < 0){
+	        perror("/dev/urandom could not be read");
+	    }
+	}
+	
+	string salt(randomData);
+	return salt;
 }

@@ -1,0 +1,30 @@
+CPEG676 Encrypted Email Server
+Coded by Justin Jagielski & Cohner Todd
+
+----------------------------------- Contents -----------------------------------
+client.cpp
+clientTools.cpp
+clientTools.h
+database.cpp
+database.h
+dataPacket.h
+mail.db
+Makefile
+README
+pubFile
+server.cpp
+----------------------------------- Purpose ------------------------------------
+The project is to show our abilities we have learned throughout the semester to 
+write secure software by leaving us with an open-ended project which consists of
+creating an Email Server which will require users to create a username and
+password to login onto the server to use the features including, but not
+exclusively, seeing other registered users, sending, and receiving messages from
+other registered users. 
+------------------------------------- How --------------------------------------
+The project will be contructed in a few parts, all working together to create a
+good user experience. To do this we will have a server, which will do most of
+the heavy lifting for encrypting messages and hosting a platform in which users
+will interact with. The second component will be the users interface, which will
+connect to the server and have a simple UI to choose actions which they will
+preform. Our goal is to support simplified Emailing, but will want to push for
+more features as we see fit, such as real time updating.

@@ -1,0 +1,1500 @@
+Script started on Mon 17 Dec 2018 05:19:20 AM UTC
+]0;ubuntu@cohner-encrypted-email-server-6578002: ~/workspace[01;32mcohner[00m:[01;34m~/workspace[00m (master) $ make all
+/usr/bin/g++ --std=c++11 -g -Wno-deprecated-declarations -Wno-write-strings -I /usr/include/crypto++ client.cpp clientTools.o -o client -lbcrypt -lcryptopp -pthread -lprotobuf  
+client.cpp:46:17: error: ‘packet::Packet* dataPacket’ redeclared as different kind of symbol
+ packet::Packet* dataPacket;
+                 ^
+In file included from client.cpp:18:0:
+dataPacket.h:8:1: error: previous declaration of ‘namespace dataPacket { }’
+ {
+ ^
+client.cpp: In function ‘void clearDataPacket()’:
+client.cpp:131:15: error: expected primary-expression before ‘->’ token
+     dataPacket->set_op(0);
+               ^
+client.cpp:132:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_name();
+               ^
+client.cpp:133:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_password();
+               ^
+client.cpp:134:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_salt();
+               ^
+client.cpp:135:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_pubkey();
+               ^
+client.cpp:136:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_to();
+               ^
+client.cpp:137:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_from();
+               ^
+client.cpp:138:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_subject();
+               ^
+client.cpp:139:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_msg();
+               ^
+client.cpp:140:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_all_users();
+               ^
+client.cpp:141:15: error: expected primary-expression before ‘->’ token
+     dataPacket->clear_error();
+               ^
+client.cpp: In function ‘int userInterface()’:
+client.cpp:167:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_op(2);
+                   ^
+client.cpp:171:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_op(1);
+                   ^
+client.cpp: In function ‘void loginScreen()’:
+client.cpp:197:15: error: expected primary-expression before ‘->’ token
+     dataPacket->set_name(__username__);
+               ^
+client.cpp:208:15: error: expected primary-expression before ‘->’ token
+     dataPacket->set_password(getPASS());
+               ^
+client.cpp:220:18: error: expected primary-expression before ‘->’ token
+     if(dataPacket->error() == "Login Success"){
+                  ^
+client.cpp:222:24: error: expected primary-expression before ‘->’ token
+     }else if(dataPacket->error() == "Login Failed"){
+                        ^
+client.cpp: In function ‘void serverUI()’:
+client.cpp:270:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_op(4);
+                   ^
+client.cpp:274:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_op(3);
+                   ^
+client.cpp:278:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_op(5);
+                   ^
+client.cpp: In function ‘void registerScreen()’:
+client.cpp:302:15: error: expected primary-expression before ‘->’ token
+     dataPacket->set_name(__username__);
+               ^
+client.cpp:320:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_salt("salty");
+                   ^
+client.cpp:321:74: error: expected primary-expression before ‘->’ token
+         __password__ = bcrypt.generateHash(__password__.append(dataPacket->salt()));
+                                                                          ^
+client.cpp:322:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_password(__password__);
+                   ^
+client.cpp:323:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_pubkey(clientTools_h::KeyGen());
+                   ^
+client.cpp:345:18: error: expected primary-expression before ‘->’ token
+     if(dataPacket->errorMessage == "Username Taken"){
+                  ^
+client.cpp: In function ‘void inbox()’:
+client.cpp:409:30: error: expected primary-expression before ‘->’ token
+     for(i = 0; i < dataPacket->subject_size(); i++){
+                              ^
+client.cpp:410:59: error: expected primary-expression before ‘->’ token
+         cout << "MSG: " << i+1 << "  FROM: " << dataPacket->to(i) 
+                                                           ^
+client.cpp:411:39: error: expected primary-expression before ‘->’ token
+         << "  SUBJECT: " << dataPacket->subject(i);
+                                       ^
+client.cpp:414:30: error: expected primary-expression before ‘->’ token
+     for(i = 0; i < dataPacket->subject_size(); i++){
+                              ^
+client.cpp:416:24: error: ‘messageUI’ was not declared in this scope
+             messageUI(i);
+                        ^
+client.cpp: In function ‘int messageUI(int)’:
+client.cpp:428:39: error: expected primary-expression before ‘->’ token
+         "** RECIPIENT: " << dataPacket->recipient.at(MSGNUM) << "\n"
+                                       ^
+client.cpp:429:37: error: expected primary-expression before ‘->’ token
+         "** SUBJECT: " << dataPacket->subject.at(MSGNUM) << "\n"
+                                     ^
+client.cpp:433:23: error: expected primary-expression before ‘->’ token
+     cout << dataPacket->msg(MSGNUM) << "\n\n"
+                       ^
+client.cpp:435:9: error: no match for ‘operator<<’ (operand types are ‘std::istream {aka std::basic_istream<char>}’ and ‘std::string {aka std::basic_string<char>}’)
+     cin << userInput;
+         ^
+client.cpp:435:9: note: candidates are:
+In file included from /usr/include/c++/4.8/string:52:0,
+                 from /usr/include/c++/4.8/stdexcept:39,
+                 from /usr/include/c++/4.8/array:38,
+                 from /usr/include/c++/4.8/tuple:39,
+                 from /usr/include/c++/4.8/functional:55,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/basic_string.h:2753:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator<<(basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/basic_string.h:2753:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/memory:82:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr.h:66:5: note: template<class _Ch, class _Tr, class _Tp, __gnu_cxx::_Lock_policy _Lp> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::__shared_ptr<_Tp, _Lp>&)
+     operator<<(std::basic_ostream<_Ch, _Tr>& __os,
+     ^
+/usr/include/c++/4.8/bits/shared_ptr.h:66:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:50:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.h:1277:5: note: template<class _RandomNumberEngine, long unsigned int __w, class _UIntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::independent_bits_engine<_RandomNumberEngine, __w, _UIntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.h:1277:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:477:5: note: template<class _UIntType1, long unsigned int __w1, long unsigned int __n1, long unsigned int __m1, long unsigned int __r1, _UIntType1 __a1, long unsigned int __u1, _UIntType1 __d1, long unsigned int __s1, _UIntType1 __b1, long unsigned int __t1, _UIntType1 __c1, long unsigned int __l1, _UIntType1 __f1, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::mersenne_twister_engine<_UIntType, __w, __n, __m, __r, __a, __u, __d, __s, __b, __t, __c, __l, __f>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:477:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1029:5: note: template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::uniform_int_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1029:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1088:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::uniform_real_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1088:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2275:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::cauchy_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2275:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1150:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::bernoulli_distribution&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1150:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2050:5: note: template<class _RealType1, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::normal_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2050:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1232:5: note: template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::geometric_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1232:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2596:5: note: template<class _RealType1, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::gamma_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2596:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1883:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::exponential_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1883:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2674:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::weibull_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2674:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2750:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::extreme_value_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2750:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:156:5: note: template<class _UIntType, _UIntType __a, _UIntType __c, _UIntType __m, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::linear_congruential_engine<_UIntType, __a, __c, __m>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:156:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:632:5: note: template<class _UIntType, long unsigned int __w, long unsigned int __s, long unsigned int __r, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::subtract_with_carry_engine<_UIntType, __w, __s, __r>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:632:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:702:5: note: template<class _RandomNumberEngine, long unsigned int __p, long unsigned int __r, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::discard_block_engine<_RandomNumberEngine, __p, __r>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:702:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:831:5: note: template<class _RandomNumberEngine, long unsigned int __k, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::shuffle_order_engine<_RandomNumberEngine, __k>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:831:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1347:5: note: template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::negative_binomial_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1347:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1552:5: note: template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::poisson_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1552:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:1819:5: note: template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::binomial_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:1819:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2115:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::lognormal_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2115:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2188:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::chi_squared_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2188:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2352:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::fisher_f_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2352:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2427:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::student_t_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2427:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2886:5: note: template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::discrete_distribution<_IntType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2886:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:3096:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::piecewise_constant_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:3096:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:3312:5: note: template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::piecewise_linear_distribution<_RealType>&)
+     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:3312:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:471:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, _CharT)
+     operator<<(basic_ostream<_CharT, _Traits>& __out, _CharT __c)
+     ^
+/usr/include/c++/4.8/ostream:471:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:476:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, char)
+     operator<<(basic_ostream<_CharT, _Traits>& __out, char __c)
+     ^
+/usr/include/c++/4.8/ostream:476:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:482:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char)
+     operator<<(basic_ostream<char, _Traits>& __out, char __c)
+     ^
+/usr/include/c++/4.8/ostream:482:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<char, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:488:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, signed char)
+     operator<<(basic_ostream<char, _Traits>& __out, signed char __c)
+     ^
+/usr/include/c++/4.8/ostream:488:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<char, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:493:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, unsigned char)
+     operator<<(basic_ostream<char, _Traits>& __out, unsigned char __c)
+     ^
+/usr/include/c++/4.8/ostream:493:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<char, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:513:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const _CharT*)
+     operator<<(basic_ostream<_CharT, _Traits>& __out, const _CharT* __s)
+     ^
+/usr/include/c++/4.8/ostream:513:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/ostream:612:0,
+                 from /usr/include/c++/4.8/iostream:39,
+                 from client.cpp:9:
+/usr/include/c++/4.8/bits/ostream.tcc:321:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const char*)
+     operator<<(basic_ostream<_CharT, _Traits>& __out, const char* __s)
+     ^
+/usr/include/c++/4.8/bits/ostream.tcc:321:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:530:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char*)
+     operator<<(basic_ostream<char, _Traits>& __out, const char* __s)
+     ^
+/usr/include/c++/4.8/ostream:530:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<char, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:543:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const signed char*)
+     operator<<(basic_ostream<char, _Traits>& __out, const signed char* __s)
+     ^
+/usr/include/c++/4.8/ostream:543:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<char, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:548:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const unsigned char*)
+     operator<<(basic_ostream<char, _Traits>& __out, const unsigned char* __s)
+     ^
+/usr/include/c++/4.8/ostream:548:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<char, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/iostream:39:0,
+                 from client.cpp:9:
+/usr/include/c++/4.8/ostream:602:5: note: template<class _CharT, class _Traits, class _Tp> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&&, const _Tp&)
+     operator<<(basic_ostream<_CharT, _Traits>&& __os, const _Tp& __x)
+     ^
+/usr/include/c++/4.8/ostream:602:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from client.cpp:16:0:
+/usr/include/c++/4.8/thread:232:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::thread::id)
+     operator<<(basic_ostream<_CharT, _Traits>& __out, thread::id __id)
+     ^
+/usr/include/c++/4.8/thread:232:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+In file included from /usr/include/c++/4.8/mutex:43:0,
+                 from /usr/include/google/protobuf/stubs/mutex.h:33,
+                 from /usr/include/google/protobuf/stubs/common.h:52,
+                 from packet.pb.h:9,
+                 from client.cpp:20:
+/usr/include/c++/4.8/system_error:186:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::error_code&)
+     operator<<(basic_ostream<_CharT, _Traits>& __os, const error_code& __e)
+     ^
+/usr/include/c++/4.8/system_error:186:5: note:   template argument deduction/substitution failed:
+client.cpp:435:12: note:   ‘std::istream {aka std::basic_istream<char>}’ is not derived from ‘std::basic_ostream<_CharT, _Traits>’
+     cin << userInput;
+            ^
+client.cpp:444:19: error: expected primary-expression before ‘->’ token
+         dataPacket->set_op(3);
+                   ^
+client.cpp:445:19: error: expected primary-expression before ‘->’ token
+         dataPacket->to(0) = dataPacket->to(MSGNUM);
+                   ^
+client.cpp:445:39: error: expected primary-expression before ‘->’ token
+         dataPacket->to(0) = dataPacket->to(MSGNUM);
+                                       ^
+client.cpp:446:19: error: expected primary-expression before ‘->’ token
+         dataPacket->subject(0) = dataPacket->subject(MSGNUM);
+                   ^
+client.cpp:446:44: error: expected primary-expression before ‘->’ token
+         dataPacket->subject(0) = dataPacket->subject(MSGNUM);
+                                            ^
+client.cpp:447:19: error: expected primary-expression before ‘->’ token
+         dataPacket->msg(0) = userInput;
+                   ^
+client.cpp: In function ‘void sendMessage()’:
+client.cpp:471:22: error: expected primary-expression before ‘->’ token
+     cin >> dataPacket->to(0); //IS THIS CORRECT?
+                      ^
+client.cpp:477:36: error: expected primary-expression before ‘->’ token
+         "**     TO: " << dataPacket->to <<               "\n"
+                                    ^
+client.cpp:483:22: error: expected primary-expression before ‘->’ token
+     cin >> dataPacket->subject(0); //IS THIS CORRECT?
+                      ^
+client.cpp:489:36: error: expected primary-expression before ‘->’ token
+         "**     TO: " << dataPacket->to(0) <<               "\n"
+                                    ^
+client.cpp:490:41: error: expected primary-expression before ‘->’ token
+         "**     SUBJECT: " << dataPacket->subject(0) <<     "\n"
+                                         ^
+client.cpp:495:22: error: expected primary-expression before ‘->’ token
+     cin >> dataPacket->msg(0);
+                      ^
+client.cpp:502:32: error: expected primary-expression before ‘->’ token
+         "** TO: " << dataPacket->to(0) << "\n"
+                                ^
+client.cpp:503:37: error: expected primary-expression before ‘->’ token
+         "** SUBJECT: " << dataPacket->subject(0) << "\n"
+                                     ^
+client.cpp:504:37: error: expected primary-expression before ‘->’ token
+         "** MESSAGE: " << dataPacket->msg(0) << "\n"
+                                     ^
+client.cpp:509:38: error: no match for ‘operator==’ (operand types are ‘std::string {aka std::basic_string<char>}’ and ‘char’)
+     if(userInput == "Y" || userInput == 'y'){
+                                      ^
+client.cpp:509:38: note: candidates are:
+In file included from /usr/include/c++/4.8/unordered_set:48:0,
+                 from /usr/include/google/protobuf/stubs/hash.h:148,
+                 from /usr/include/google/protobuf/map.h:50,
+                 from /usr/include/google/protobuf/generated_message_table_driven.h:34,
+                 from packet.pb.h:25,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/unordered_set.h:1283:5: note: template<class _Value, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>&, const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>&)
+     operator==(const unordered_multiset<_Value, _Hash, _Pred, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/unordered_set.h:1283:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/unordered_set:48:0,
+                 from /usr/include/google/protobuf/stubs/hash.h:148,
+                 from /usr/include/google/protobuf/map.h:50,
+                 from /usr/include/google/protobuf/generated_message_table_driven.h:34,
+                 from packet.pb.h:25,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/unordered_set.h:1271:5: note: template<class _Value, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_set<_Value, _Hash, _Pred, _Alloc>&, const std::unordered_set<_Value, _Hash, _Pred, _Alloc>&)
+     operator==(const unordered_set<_Value, _Hash, _Pred, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/unordered_set.h:1271:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::unordered_set<_Value, _Hash, _Pred, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/unordered_map:48:0,
+                 from /usr/include/google/protobuf/stubs/hash.h:146,
+                 from /usr/include/google/protobuf/map.h:50,
+                 from /usr/include/google/protobuf/generated_message_table_driven.h:34,
+                 from packet.pb.h:25,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/unordered_map.h:1400:5: note: template<class _Key, class _Tp, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_multimap<_Key, _Tp, _Hash, _Pred, _Alloc>&, const std::unordered_multimap<_Key, _Tp, _Hash, _Pred, _Alloc>&)
+     operator==(const unordered_multimap<_Key, _Tp, _Hash, _Pred, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/unordered_map.h:1400:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::unordered_multimap<_Key, _Tp, _Hash, _Pred, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/unordered_map:48:0,
+                 from /usr/include/google/protobuf/stubs/hash.h:146,
+                 from /usr/include/google/protobuf/map.h:50,
+                 from /usr/include/google/protobuf/generated_message_table_driven.h:34,
+                 from packet.pb.h:25,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/unordered_map.h:1388:5: note: template<class _Key, class _Tp, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>&, const std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>&)
+     operator==(const unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/unordered_map.h:1388:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/iterator:66:0,
+                 from /usr/include/google/protobuf/map.h:41,
+                 from /usr/include/google/protobuf/generated_message_table_driven.h:34,
+                 from packet.pb.h:25,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/stream_iterator.h:130:5: note: template<class _Tp, class _CharT, class _Traits, class _Dist> bool std::operator==(const std::istream_iterator<_Tp, _CharT, _Traits, _Dist>&, const std::istream_iterator<_Tp, _CharT, _Traits, _Dist>&)
+     operator==(const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __x,
+     ^
+/usr/include/c++/4.8/bits/stream_iterator.h:130:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::istream_iterator<_Tp, _CharT, _Traits, _Dist>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/mutex:43:0,
+                 from /usr/include/google/protobuf/stubs/mutex.h:33,
+                 from /usr/include/google/protobuf/stubs/common.h:52,
+                 from packet.pb.h:9,
+                 from client.cpp:20:
+/usr/include/c++/4.8/system_error:279:3: note: bool std::operator==(const std::error_condition&, const std::error_condition&)
+   operator==(const error_condition& __lhs,
+   ^
+/usr/include/c++/4.8/system_error:279:3: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const std::error_condition&’
+/usr/include/c++/4.8/system_error:272:3: note: bool std::operator==(const std::error_condition&, const std::error_code&)
+   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+   ^
+/usr/include/c++/4.8/system_error:272:3: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const std::error_condition&’
+/usr/include/c++/4.8/system_error:265:3: note: bool std::operator==(const std::error_code&, const std::error_condition&)
+   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+   ^
+/usr/include/c++/4.8/system_error:265:3: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const std::error_code&’
+/usr/include/c++/4.8/system_error:260:3: note: bool std::operator==(const std::error_code&, const std::error_code&)
+   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+   ^
+/usr/include/c++/4.8/system_error:260:3: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const std::error_code&’
+In file included from /usr/include/c++/4.8/set:62:0,
+                 from /usr/include/google/protobuf/stubs/common.h:42,
+                 from packet.pb.h:9,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/stl_multiset.h:739:5: note: template<class _Key, class _Compare, class _Alloc> bool std::operator==(const std::multiset<_Key, _Compare, _Alloc>&, const std::multiset<_Key, _Compare, _Alloc>&)
+     operator==(const multiset<_Key, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_multiset.h:739:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::multiset<_Key, _Compare, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/set:61:0,
+                 from /usr/include/google/protobuf/stubs/common.h:42,
+                 from packet.pb.h:9,
+                 from client.cpp:20:
+/usr/include/c++/4.8/bits/stl_set.h:754:5: note: template<class _Key, class _Compare, class _Alloc> bool std::operator==(const std::set<_Key, _Compare, _Alloc>&, const std::set<_Key, _Compare, _Alloc>&)
+     operator==(const set<_Key, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_set.h:754:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::set<_Key, _Compare, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/locale_facets.h:48:0,
+                 from /usr/include/c++/4.8/bits/basic_ios.h:37,
+                 from /usr/include/c++/4.8/ios:44,
+                 from /usr/include/c++/4.8/ostream:38,
+                 from /usr/include/c++/4.8/iostream:39,
+                 from client.cpp:9:
+/usr/include/c++/4.8/bits/streambuf_iterator.h:204:5: note: template<class _CharT, class _Traits> bool std::operator==(const std::istreambuf_iterator<_CharT, _Traits>&, const std::istreambuf_iterator<_CharT, _Traits>&)
+     operator==(const istreambuf_iterator<_CharT, _Traits>& __a,
+     ^
+/usr/include/c++/4.8/bits/streambuf_iterator.h:204:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::istreambuf_iterator<_CharT, _Traits>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/deque:64:0,
+                 from /usr/include/crypto++/filters.h:12,
+                 from /usr/include/crypto++/pubkey.h:36,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_deque.h:1957:5: note: template<class _Tp, class _Alloc> bool std::operator==(const std::deque<_Tp, _Alloc>&, const std::deque<_Tp, _Alloc>&)
+     operator==(const deque<_Tp, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_deque.h:1957:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::deque<_Tp, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/deque:64:0,
+                 from /usr/include/crypto++/filters.h:12,
+                 from /usr/include/crypto++/pubkey.h:36,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_deque.h:254:5: note: template<class _Tp, class _RefL, class _PtrL, class _RefR, class _PtrR> bool std::operator==(const std::_Deque_iterator<_Tp, _Ref, _Ptr>&, const std::_Deque_iterator<_Tp, _RefR, _PtrR>&)
+     operator==(const _Deque_iterator<_Tp, _RefL, _PtrL>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_deque.h:254:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::_Deque_iterator<_Tp, _Ref, _Ptr>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/deque:64:0,
+                 from /usr/include/crypto++/filters.h:12,
+                 from /usr/include/crypto++/pubkey.h:36,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_deque.h:247:5: note: template<class _Tp, class _Ref, class _Ptr> bool std::operator==(const std::_Deque_iterator<_Tp, _Ref, _Ptr>&, const std::_Deque_iterator<_Tp, _Ref, _Ptr>&)
+     operator==(const _Deque_iterator<_Tp, _Ref, _Ptr>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_deque.h:247:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::_Deque_iterator<_Tp, _Ref, _Ptr>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/map:62:0,
+                 from /usr/include/crypto++/stdcpp.h:19,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_multimap.h:864:5: note: template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator==(const std::multimap<_Key, _Tp, _Compare, _Alloc>&, const std::multimap<_Key, _Tp, _Compare, _Alloc>&)
+     operator==(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_multimap.h:864:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::multimap<_Key, _Tp, _Compare, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/map:61:0,
+                 from /usr/include/crypto++/stdcpp.h:19,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_map.h:962:5: note: template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator==(const std::map<_Key, _Tp, _Compare, _Alloc>&, const std::map<_Key, _Tp, _Compare, _Alloc>&)
+     operator==(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_map.h:962:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::map<_Key, _Tp, _Compare, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/map:60:0,
+                 from /usr/include/crypto++/stdcpp.h:19,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_tree.h:907:5: note: template<class _Key, class _Val, class _KeyOfValue, class _Compare, class _Alloc> bool std::operator==(const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>&, const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>&)
+     operator==(const _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_tree.h:907:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/map:60:0,
+                 from /usr/include/crypto++/stdcpp.h:19,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_tree.h:310:5: note: template<class _Val> bool std::operator==(const std::_Rb_tree_iterator<_Tp>&, const std::_Rb_tree_const_iterator<_Val>&)
+     operator==(const _Rb_tree_iterator<_Val>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_tree.h:310:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::_Rb_tree_iterator<_Tp>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/random:52:0,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/random.tcc:2030:5: note: template<class _RealType1> bool std::operator==(const std::normal_distribution<_RealType>&, const std::normal_distribution<_RealType>&)
+     operator==(const std::normal_distribution<_RealType>& __d1,
+     ^
+/usr/include/c++/4.8/bits/random.tcc:2030:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::normal_distribution<_RealType>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/vector:64:0,
+                 from /usr/include/c++/4.8/bits/random.h:34,
+                 from /usr/include/c++/4.8/random:50,
+                 from /usr/include/c++/4.8/bits/stl_algo.h:65,
+                 from /usr/include/c++/4.8/algorithm:62,
+                 from /usr/include/crypto++/stdcpp.h:18,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_vector.h:1404:5: note: template<class _Tp, class _Alloc> bool std::operator==(const std::vector<_Tp, _Alloc>&, const std::vector<_Tp, _Alloc>&)
+     operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+     ^
+/usr/include/c++/4.8/bits/stl_vector.h:1404:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::vector<_Tp, _Alloc>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:82:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr.h:338:5: note: template<class _Tp> bool std::operator==(std::nullptr_t, const std::shared_ptr<_Tp1>&)
+     operator==(nullptr_t, const shared_ptr<_Tp>& __a) noexcept
+     ^
+/usr/include/c++/4.8/bits/shared_ptr.h:338:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   cannot convert ‘userInput’ (type ‘std::string {aka std::basic_string<char>}’) to type ‘std::nullptr_t’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:82:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr.h:333:5: note: template<class _Tp> bool std::operator==(const std::shared_ptr<_Tp1>&, std::nullptr_t)
+     operator==(const shared_ptr<_Tp>& __a, nullptr_t) noexcept
+     ^
+/usr/include/c++/4.8/bits/shared_ptr.h:333:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::shared_ptr<_Tp1>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:82:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr.h:327:5: note: template<class _Tp1, class _Tp2> bool std::operator==(const std::shared_ptr<_Tp1>&, const std::shared_ptr<_Tp2>&)
+     operator==(const shared_ptr<_Tp1>& __a,
+     ^
+/usr/include/c++/4.8/bits/shared_ptr.h:327:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::shared_ptr<_Tp1>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/shared_ptr.h:52:0,
+                 from /usr/include/c++/4.8/memory:82,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr_base.h:1040:5: note: template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(std::nullptr_t, const std::__shared_ptr<_Tp, _Lp>&)
+     operator==(nullptr_t, const __shared_ptr<_Tp, _Lp>& __a) noexcept
+     ^
+/usr/include/c++/4.8/bits/shared_ptr_base.h:1040:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   cannot convert ‘userInput’ (type ‘std::string {aka std::basic_string<char>}’) to type ‘std::nullptr_t’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/shared_ptr.h:52:0,
+                 from /usr/include/c++/4.8/memory:82,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr_base.h:1035:5: note: template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const std::__shared_ptr<_Tp, _Lp>&, std::nullptr_t)
+     operator==(const __shared_ptr<_Tp, _Lp>& __a, nullptr_t) noexcept
+     ^
+/usr/include/c++/4.8/bits/shared_ptr_base.h:1035:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::__shared_ptr<_Tp, _Lp>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/shared_ptr.h:52:0,
+                 from /usr/include/c++/4.8/memory:82,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/shared_ptr_base.h:1029:5: note: template<class _Tp1, class _Tp2, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const std::__shared_ptr<_Tp1, _Lp>&, const std::__shared_ptr<_Tp2, _Lp>&)
+     operator==(const __shared_ptr<_Tp1, _Lp>& __a,
+     ^
+/usr/include/c++/4.8/bits/shared_ptr_base.h:1029:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::__shared_ptr<_Tp1, _Lp>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:81:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/unique_ptr.h:500:5: note: template<class _Tp, class _Dp> bool std::operator==(std::nullptr_t, const std::unique_ptr<_Tp, _Dp>&)
+     operator==(nullptr_t, const unique_ptr<_Tp, _Dp>& __x) noexcept
+     ^
+/usr/include/c++/4.8/bits/unique_ptr.h:500:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   cannot convert ‘userInput’ (type ‘std::string {aka std::basic_string<char>}’) to type ‘std::nullptr_t’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:81:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/unique_ptr.h:495:5: note: template<class _Tp, class _Dp> bool std::operator==(const std::unique_ptr<_Tp, _Dp>&, std::nullptr_t)
+     operator==(const unique_ptr<_Tp, _Dp>& __x, nullptr_t) noexcept
+     ^
+/usr/include/c++/4.8/bits/unique_ptr.h:495:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:81:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/unique_ptr.h:489:5: note: template<class _Tp, class _Dp, class _Up, class _Ep> bool std::operator==(const std::unique_ptr<_Tp, _Dp>&, const std::unique_ptr<_Up, _Ep>&)
+     operator==(const unique_ptr<_Tp, _Dp>& __x,
+     ^
+/usr/include/c++/4.8/bits/unique_ptr.h:489:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:79:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/functional:2543:5: note: template<class _Res, class ... _Args> bool std::operator==(std::nullptr_t, const std::function<_Res(_ArgTypes ...)>&)
+     operator==(nullptr_t, const function<_Res(_Args...)>& __f) noexcept
+     ^
+/usr/include/c++/4.8/functional:2543:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   cannot convert ‘userInput’ (type ‘std::string {aka std::basic_string<char>}’) to type ‘std::nullptr_t’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:79:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/functional:2537:5: note: template<class _Res, class ... _Args> bool std::operator==(const std::function<_Res(_ArgTypes ...)>&, std::nullptr_t)
+     operator==(const function<_Res(_Args...)>& __f, nullptr_t) noexcept
+     ^
+/usr/include/c++/4.8/functional:2537:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::function<_Res(_ArgTypes ...)>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/functional:55:0,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/tuple:813:5: note: template<class ... _TElements, class ... _UElements> constexpr bool std::operator==(const std::tuple<_Elements ...>&, const std::tuple<_Elements ...>&)
+     operator==(const tuple<_TElements...>& __t,
+     ^
+/usr/include/c++/4.8/tuple:813:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::tuple<_Elements ...>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/tuple:39:0,
+                 from /usr/include/c++/4.8/functional:55,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/array:228:5: note: template<class _Tp, long unsigned int _Nm> bool std::operator==(const std::array<_Tp, _Nm>&, const std::array<_Tp, _Nm>&)
+     operator==(const array<_Tp, _Nm>& __one, const array<_Tp, _Nm>& __two)
+     ^
+/usr/include/c++/4.8/array:228:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::array<_Tp, _Nm>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/string:52:0,
+                 from /usr/include/c++/4.8/stdexcept:39,
+                 from /usr/include/c++/4.8/array:38,
+                 from /usr/include/c++/4.8/tuple:39,
+                 from /usr/include/c++/4.8/functional:55,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/basic_string.h:2519:5: note: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const std::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*)
+     operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/usr/include/c++/4.8/bits/basic_string.h:2519:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   mismatched types ‘const _CharT*’ and ‘char’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/string:52:0,
+                 from /usr/include/c++/4.8/stdexcept:39,
+                 from /usr/include/c++/4.8/array:38,
+                 from /usr/include/c++/4.8/tuple:39,
+                 from /usr/include/c++/4.8/functional:55,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/basic_string.h:2507:5: note: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const _CharT*, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator==(const _CharT* __lhs,
+     ^
+/usr/include/c++/4.8/bits/basic_string.h:2507:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   mismatched types ‘const _CharT*’ and ‘std::basic_string<char>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/string:52:0,
+                 from /usr/include/c++/4.8/stdexcept:39,
+                 from /usr/include/c++/4.8/array:38,
+                 from /usr/include/c++/4.8/tuple:39,
+                 from /usr/include/c++/4.8/functional:55,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/basic_string.h:2493:5: note: template<class _CharT> typename __gnu_cxx::__enable_if<std::__is_char<_Tp>::__value, bool>::__type std::operator==(const std::basic_string<_CharT>&, const std::basic_string<_CharT>&)
+     operator==(const basic_string<_CharT>& __lhs,
+     ^
+/usr/include/c++/4.8/bits/basic_string.h:2493:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   mismatched types ‘const std::basic_string<_CharT>’ and ‘char’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/string:52:0,
+                 from /usr/include/c++/4.8/stdexcept:39,
+                 from /usr/include/c++/4.8/array:38,
+                 from /usr/include/c++/4.8/tuple:39,
+                 from /usr/include/c++/4.8/functional:55,
+                 from /usr/include/c++/4.8/memory:79,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/basic_string.h:2486:5: note: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const std::basic_string<_CharT, _Traits, _Alloc>&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/usr/include/c++/4.8/bits/basic_string.h:2486:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   mismatched types ‘const std::basic_string<_CharT, _Traits, _Alloc>’ and ‘char’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/iosfwd:40:0,
+                 from /usr/include/c++/4.8/memory:72,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/postypes.h:216:5: note: template<class _StateT> bool std::operator==(const std::fpos<_StateT>&, const std::fpos<_StateT>&)
+     operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
+     ^
+/usr/include/c++/4.8/bits/postypes.h:216:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::fpos<_StateT>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:63:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/allocator.h:133:5: note: template<class _Tp> bool std::operator==(const std::allocator<_Tp1>&, const std::allocator<_Tp1>&)
+     operator==(const allocator<_Tp>&, const allocator<_Tp>&)
+     ^
+/usr/include/c++/4.8/bits/allocator.h:133:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::allocator<_Tp1>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/memory:63:0,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/allocator.h:128:5: note: template<class _T1, class _T2> bool std::operator==(const std::allocator<_Tp1>&, const std::allocator<_T2>&)
+     operator==(const allocator<_T1>&, const allocator<_T2>&)
+     ^
+/usr/include/c++/4.8/bits/allocator.h:128:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::allocator<_Tp1>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_iterator.h:1037:5: note: template<class _Iterator> bool std::operator==(const std::move_iterator<_Iterator>&, const std::move_iterator<_Iterator>&)
+     operator==(const move_iterator<_Iterator>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_iterator.h:1037:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::move_iterator<_Iterator>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_iterator.h:1031:5: note: template<class _IteratorL, class _IteratorR> bool std::operator==(const std::move_iterator<_Iterator>&, const std::move_iterator<_IteratorR>&)
+     operator==(const move_iterator<_IteratorL>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_iterator.h:1031:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::move_iterator<_Iterator>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_iterator.h:341:5: note: template<class _IteratorL, class _IteratorR> bool std::operator==(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_IteratorR>&)
+     operator==(const reverse_iterator<_IteratorL>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_iterator.h:341:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_iterator.h:291:5: note: template<class _Iterator> bool std::operator==(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_Iterator>&)
+     operator==(const reverse_iterator<_Iterator>& __x,
+     ^
+/usr/include/c++/4.8/bits/stl_iterator.h:291:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_pair.h:214:5: note: template<class _T1, class _T2> constexpr bool std::operator==(const std::pair<_T1, _T2>&, const std::pair<_T1, _T2>&)
+     operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+     ^
+/usr/include/c++/4.8/bits/stl_pair.h:214:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const std::pair<_T1, _T2>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/4.8/bits/allocator.h:46,
+                 from /usr/include/c++/4.8/memory:63,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/ext/new_allocator.h:139:5: note: template<class _Tp> bool __gnu_cxx::operator==(const __gnu_cxx::new_allocator<_Tp>&, const __gnu_cxx::new_allocator<_Tp>&)
+     operator==(const new_allocator<_Tp>&, const new_allocator<_Tp>&)
+     ^
+/usr/include/c++/4.8/ext/new_allocator.h:139:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const __gnu_cxx::new_allocator<_Tp>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_iterator.h:811:5: note: template<class _Iterator, class _Container> bool __gnu_cxx::operator==(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&)
+     operator==(const __normal_iterator<_Iterator, _Container>& __lhs,
+     ^
+/usr/include/c++/4.8/bits/stl_iterator.h:811:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Container>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+In file included from /usr/include/c++/4.8/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.8/memory:62,
+                 from /usr/include/crypto++/stdcpp.h:14,
+                 from /usr/include/crypto++/cryptlib.h:82,
+                 from /usr/include/crypto++/modarith.h:6,
+                 from /usr/include/crypto++/pubkey.h:35,
+                 from /usr/include/crypto++/rsa.h:9,
+                 from clientTools.h:4,
+                 from client.cpp:1:
+/usr/include/c++/4.8/bits/stl_iterator.h:805:5: note: template<class _IteratorL, class _IteratorR, class _Container> bool __gnu_cxx::operator==(const __gnu_cxx::__normal_iterator<_IteratorL, _Container>&, const __gnu_cxx::__normal_iterator<_IteratorR, _Container>&)
+     operator==(const __normal_iterator<_IteratorL, _Container>& __lhs,
+     ^
+/usr/include/c++/4.8/bits/stl_iterator.h:805:5: note:   template argument deduction/substitution failed:
+client.cpp:509:41: note:   ‘std::string {aka std::basic_string<char>}’ is not derived from ‘const __gnu_cxx::__normal_iterator<_IteratorL, _Container>’
+     if(userInput == "Y" || userInput == 'y'){
+                                         ^
+client.cpp:512:22: error: expected primary-expression before ‘->’ token
+         if(dataPacket->error() == "User Not Found"){
+                      ^
+client.cpp: In function ‘void users()’:
+client.cpp:538:30: error: expected primary-expression before ‘->’ token
+     for(i = 0; i < dataPacket->all_users_size(); i++){
+                              ^
+client.cpp:539:42: error: expected primary-expression before ‘->’ token
+         cout << i+1 << ".)" << dataPacket->all_users(i) << "\n";
+                                          ^
+client.cpp: In function ‘int main()’:
+client.cpp:568:15: warning: passing NULL to non-pointer argument 1 of ‘void srand(unsigned int)’ [-Wconversion-null]
+     srand(NULL);
+               ^
+make: *** [client] Error 1
+]0;ubuntu@cohner-encrypted-email-server-6578002: ~/workspace[01;32mcohner[00m:[01;34m~/workspace[00m (master) $ exit
+exit
+
+Script done on Mon 17 Dec 2018 05:19:26 AM UTC

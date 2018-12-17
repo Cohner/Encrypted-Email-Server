@@ -1,0 +1,140 @@
+To secure a user's password: (https://ss.prof.ninja/class21/>\)
+    *When a user creates an account, generate a urandom salt for thier password, and hash the password with that salt
+        *Urandom information found here: https://ss.prof.ninja/class20/
+    *Store the hash and the salt together, matched with thier username
+
+To check a user's password when they log in:
+    *Once a user has filled out the username and password fields and clicked "login," check if that username is stored in the server
+        *If so, continue
+        *If not, return an error
+    *Once the username is found, send the stored salt back to the user's client
+    *The user's client will append the salt to the plaintext password, hash it, and send the result to the server
+    *The server will compare the result to the stored hash:
+        *If match, login
+        *If no match, return an error
+        
+Ideal initial menu:
+-------------------------------------------------
+
+*************************************************
+**                                             **
+** Welcome to Cohner and Justin's Email Server **
+**                                             **
+*************************************************
+
+Select an Option:
+
+1.) Login   2.) Register   3.) About
+
+->|
+-------------------------------------------------
+
+When a user has logged in, the UI may look like this:
+-------------------------------------------------
+
+*************************************************
+**                                             **
+**   Welcome, please select an option below    **
+**                                             **
+*************************************************
+Logged in as: %USER%
+
+1.) Inbox           2.) Send Message
+3.) View Users      4.) Logout
+
+->|
+-------------------------------------------------
+
+CHECKLIST FOR FEATURES IMPLEMENTED:
+
+Login:          X
+Register:       X
+About:          ✓
+Inbox:          X
+Send Message:   X
+View Users:     X
+Logout:         ✓
+
+✓ <-- Checkmark for copy/paste
+
+Plan for encyption/decrpytion:
+    *
+    
+    https://www.youtube.com/watch?v=6H_9l9N3IXU
+    
+    http://www.trytoprogram.com/cpp-examples/cplusplus-program-encrypt-decrypt-string/
+    
+    
+Execution flow for the various commands the user could potentially want to do:
+
+Register:
+Enter a Username --> Enter a Password --> Confirm Password --> *Check to make sure the passwords just entered match, if not, print error and go back, if so continue --> *Check database to see if Username exists; if so, print error and go back; if not, continue* --> *Add row to USERS database with username, HASHED password, and salt* --> *Print success message and return to initial screen* --|
+
+Login:
+Enter a Username --> Enter a Password -->  *Check database to see if Username exists; if so, print error and go back; if not, continue* --> *Check to see if password hashes match; if not, print error and go back, if so, continue* --> Move to the next screen --|
+
+
+
+
+Database Tables:
+
+USERS:
+
+|                       |             |                 |             |                |
+| ID (INT, PRIMARY KEY) | NAME (TEXT) | PASSWORD (TEXT) | SALT (TEXT) | ONLINE? (TEXT) |
+|                       |             |                 |             |                |
+
+ID: This will be the unique ID of each user, either incremented or randomly generated, so long as it is unique
+NAME: The username of the user
+PASSWORD: This is the hashed output of "bcrypt.generateHash(password+salt)"
+SALT: This is the stored value of "salt" from above
+ONLINE?: Is this user online? Can be either text ("TRUE"/"FALSE") or an integer (1/0). I've chosen text for now, but it could potentially be changed if we have a reason for it
+
+MSG:
+
+|                           |                 |               |                |                |                      |                        |
+| MSG_ID (INT, PRIMARY KEY) | FROM_WHO (TEXT) | TO_WHO (TEXT) | SUBJECT (TEXT) | MESSAGE (TEXT) | DATE_SENT (INTEGER?) | PUB_KEY (TEXT/INTEGER) |
+|                           |                 |               |                |                |                      |                        |
+
+MSG_ID: This is the unique ID of each message, no user will ever see this, but each table needs one, so here it is
+FROM_WHO: The user that sent the message. The "_WHO" was added as FROM is an SQL statement, and cannot be used as a column name
+TO: The user that is to receive the message. The "_WHO" was added to match the style of FROM_WHO
+SUBJECT: The subject line of the email, stored encrypted in whatever encryption sheme we want
+MESSAGE: The contents of the email, stored encrypted in whatever encryptino scheme we want
+DATE_SENT: This is the date that the message was sent, there are various ways to store this field, as per section 2.2 of https://www.sqlite.org/datatype3.html , so we need to pick one.
+PUB_KEY: This is the public key to be used for decryption is whatever encryption scheme we want to use. Not sure what format to store this in, that will be decided once we figure out encryption
+
+Once a user requests to see thier inbox, the query to the server will look something like:
+
+SELECT * FROM MSG WHERE TO==%USER%;
+
+And will be displayed as a table like:
+
+|       |          |           |
+| FROM: | SUBJECT: | DATE_SENT |
+|       |          |           |
+
+
+LD_LIBRARY_PATH=/usr/local/lib/x86_64-linux-gnu/
+export LD_LIBRARY_PATH
+echo $LD_LIBRARY_PATH
+
+//On the client end
+cin << someUserName;
+struct dataToSendToServer;
+dataToSendToServer.username = someUserName;
+
+send(hSocket , &dataToSendToServer , sizeof(dataToSendToServer) , 0);
+
+
+//On the server end
+struct dataFromClient;
+recv(sock , &dataFromClient , sizeof(dataFromClient) , 0);
+
+username = dataFromClient.username;
+
+if(database_h::FindUser(username)){
+        cout << username << " already exists" << endl;
+    }else{
+        database_h::CreateUser(user, hash, salt, key);
+    }

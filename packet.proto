@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package packet;
+
+message Packet{
+    int32 OP = 1;
+    string name = 2;
+    string password = 3;
+    string salt = 4;
+    string pubKey = 5;
+    repeated string to = 6;
+    repeated string from = 7;
+    repeated string subject = 8;
+    repeated string msg = 9;
+    repeated string all_users = 10;
+    string error = 11;
+}

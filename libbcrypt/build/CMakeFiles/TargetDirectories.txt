@@ -1,0 +1,2 @@
+/home/ubuntu/workspace/libbcrypt/build/CMakeFiles/bcrypt.dir
+/home/ubuntu/workspace/libbcrypt/build/CMakeFiles/bcrypt_test.dir
